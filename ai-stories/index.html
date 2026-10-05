@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AI Stories Uploader</title>
+  <meta name="description" content="AI Stories Uploader is a personal tool by Trax Palmer that uploads his own original AI-generated story Shorts to his own YouTube channel.">
+  <style>
+    :root { --bg:#0d0d12; --card:#16161f; --tx:#f2f2f5; --mu:#a8a8b8; --ac:#ffe566; --line:#2a2a38; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; background: var(--bg); color: var(--tx); line-height: 1.65; }
+    .wrap { max-width: 720px; margin: 0 auto; padding: 48px 20px 80px; }
+    h1 { font-size: clamp(1.8rem, 5vw, 2.4rem); letter-spacing: .02em; margin-bottom: 12px; }
+    .tag { display: inline-block; font-size: .75rem; letter-spacing: .14em; text-transform: uppercase; color: var(--ac); font-weight: 700; margin-bottom: 18px; }
+    p { color: var(--mu); margin-bottom: 14px; }
+    .card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 22px 20px; margin: 28px 0; }
+    .card h2 { font-size: 1.1rem; margin-bottom: 10px; color: var(--tx); }
+    a { color: var(--ac); }
+    ul { color: var(--mu); padding-left: 1.2rem; margin: 8px 0 0; }
+    li { margin: 6px 0; }
+    footer { margin-top: 40px; font-size: .9rem; color: var(--mu); border-top: 1px solid var(--line); padding-top: 18px; }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <div class="tag">Personal tool</div>
+    <h1>AI Stories Uploader</h1>
+    <p>
+      <strong style="color:var(--tx)">AI Stories Uploader</strong> is a personal tool built by
+      <strong style="color:var(--tx)">Trax Palmer</strong>. It helps him upload his own original,
+      AI-generated story Shorts to <em>his own</em> YouTube channel.
+    </p>
+    <div class="card">
+      <h2>What this app does</h2>
+      <ul>
+        <li>Connects only to Trax’s own YouTube account (with his permission).</li>
+        <li>Uploads videos he created for his AI Stories channel.</li>
+        <li>Uses the YouTube Data API <code>youtube.upload</code> scope only.</li>
+        <li>Does not provide uploads for other people’s channels.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h2>Privacy</h2>
+      <p>
+        Read the <a href="./privacy/">Privacy Policy</a> for how OAuth tokens are stored
+        (on the owner’s machine only) and how to revoke access.
+      </p>
+    </div>
+    <p>
+      Contact: <a href="mailto:traxbuildswebsites@gmail.com">traxbuildswebsites@gmail.com</a>
+    </p>
+    <footer>
+      <p>© Trax Palmer · AI Stories Uploader · Not affiliated with YouTube or Google beyond normal API use.</p>
+    </footer>
+  </main>
+</body>
+</html>
