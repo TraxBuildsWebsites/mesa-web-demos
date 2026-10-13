@@ -1,34 +1,42 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<!doctype html><html lang="en"><head><script>document.documentElement.dataset.theme=localStorage.phxTheme||"light"</script><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>PHX Supplies</title><style>
-:root{--bg:#fafafa;--card:#fff;--fg:#111;--mut:#777;--line:#e6e6e6;--acc:#ff5a1f}
+:root,[data-theme="light"]{--bg:#fafafa;--card:#fff;--fg:#111;--mut:#6b6b6b;--line:#e6e6e6;--acc:#ff5a1f;--onacc:#fff;--hdr:rgba(255,255,255,.96);--in:#f1f1f1;--ph:#eee;--out:#bbb}
+[data-theme="black"]{--bg:#0b0b0b;--card:#161616;--fg:#f2f2f2;--mut:#a3a3a3;--line:#2a2a2a;--acc:#ff6a2b;--onacc:#111;--hdr:rgba(11,11,11,.95);--in:#1f1f1f;--ph:#222;--out:#555}
+[data-theme="purple"]{--bg:#f6f3fc;--card:#fff;--fg:#1d1530;--mut:#6c6280;--line:#e4dcf3;--acc:#6d3fd6;--onacc:#fff;--hdr:rgba(255,255,255,.95);--in:#efeaf8;--ph:#ece6f6;--out:#b9b0ca}
+[data-theme="blue"]{--bg:#f2f6fc;--card:#fff;--fg:#0f1a2c;--mut:#5b677a;--line:#dbe4f2;--acc:#1f5fd1;--onacc:#fff;--hdr:rgba(255,255,255,.95);--in:#e9eff9;--ph:#e6edf7;--out:#aab4c4}
+[data-theme="red"]{--bg:#fcf3f3;--card:#fff;--fg:#2a1111;--mut:#7a5c5c;--line:#f1dcdc;--acc:#c62828;--onacc:#fff;--hdr:rgba(255,255,255,.95);--in:#f8eaea;--ph:#f4e5e5;--out:#c8aeae}
+[data-theme="green"]{--bg:#f2f8f3;--card:#fff;--fg:#102116;--mut:#5a6d60;--line:#d9eadd;--acc:#1e7d3e;--onacc:#fff;--hdr:rgba(255,255,255,.95);--in:#e8f2ea;--ph:#e4efe7;--out:#a9bcae}
+[data-theme="orange"]{--bg:#fff6ef;--card:#fff;--fg:#2a1708;--mut:#7a6252;--line:#f4e1d2;--acc:#e8590c;--onacc:#fff;--hdr:rgba(255,255,255,.95);--in:#fbece0;--ph:#f6e8dc;--out:#cbb3a0}
+@media(max-width:640px){.top{flex-wrap:wrap}.logo{margin-right:auto}#q{order:5;flex-basis:100%}}
+.sw{display:flex;gap:4px}.sw button{width:16px;height:16px;border-radius:50%;border:2px solid var(--line);cursor:pointer;padding:0}.sw button.on{outline:2px solid var(--fg);outline-offset:1px}
 *{box-sizing:border-box}body{margin:0;font:13px/1.4 -apple-system,system-ui,Segoe UI,Inter,Arial;background:var(--bg);color:var(--fg)}
-header{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.96);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
-.top{display:flex;align-items:center;gap:10px;padding:10px 14px}.logo{font-weight:900;font-size:17px;letter-spacing:.5px;white-space:nowrap}.logo b{color:var(--acc)}
-#q{flex:1;min-width:0;border:1px solid var(--line);background:#f3f3f3;border-radius:20px;padding:7px 12px;font-size:13px}
-.ib{border:0;background:none;font-size:13px;cursor:pointer;padding:6px 8px;border-radius:8px;white-space:nowrap}.ib:hover{background:#f0f0f0}
+header{position:sticky;top:0;z-index:20;background:var(--hdr);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.top{display:flex;align-items:center;gap:10px;padding:10px 14px}.logo{font-weight:900;font-size:17px;letter-spacing:.5px;white-space:nowrap}.logo b{color:var(--acc)}.logo{color:var(--fg)}
+#q{color:var(--fg);flex:1;min-width:0;border:1px solid var(--line);background:var(--in);border-radius:20px;padding:7px 12px;font-size:13px}
+.ib{border:0;background:none;color:var(--fg);font-size:13px;cursor:pointer;padding:6px 8px;border-radius:8px;white-space:nowrap}.ib:hover{background:var(--in)}
 #cc{background:var(--fg);color:#fff;border-radius:10px;padding:0 6px;font-size:11px;margin-left:3px}
 .tabs{display:flex;gap:6px;overflow-x:auto;padding:0 14px 9px;scrollbar-width:none}.tabs::-webkit-scrollbar{display:none}
-.tabs button{flex:none;border:1px solid var(--line);background:#fff;border-radius:16px;padding:4px 11px;font-size:12px;cursor:pointer}.tabs button.on{background:var(--fg);color:#fff;border-color:var(--fg)}
+.tabs button{flex:none;border:1px solid var(--line);background:var(--card);color:var(--fg);border-radius:16px;padding:4px 11px;font-size:12px;cursor:pointer}.tabs button.on{background:var(--acc);color:var(--onacc);border-color:var(--acc)}
 .sub{display:flex;gap:8px;align-items:center;padding:10px 14px;color:var(--mut);font-size:12px}.sub label{display:flex;gap:4px;align-items:center}
 .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;padding:0 10px 60px}
 @media(min-width:640px){.grid{grid-template-columns:repeat(3,1fr)}}@media(min-width:1000px){.grid{grid-template-columns:repeat(4,1fr)}}@media(min-width:1300px){.grid{grid-template-columns:repeat(5,1fr)}}
 .card{background:var(--card);border:1px solid var(--line);border-radius:8px;overflow:hidden;position:relative;display:flex;flex-direction:column}
-.card img,.ph{width:100%;aspect-ratio:1;object-fit:cover;background:#eee;display:block}.ph{display:flex;align-items:center;justify-content:center;color:var(--mut);font-size:11px}
+.card img,.ph{width:100%;aspect-ratio:1;object-fit:cover;background:var(--ph);display:block}.ph{display:flex;align-items:center;justify-content:center;color:var(--mut);font-size:11px}
 .card.sold img{opacity:.45}.so{position:absolute;top:6px;left:6px;background:#111;color:#fff;font-size:10px;font-weight:700;padding:2px 6px;border-radius:4px;letter-spacing:.5px}
 .b{padding:7px 8px 8px;display:flex;flex-direction:column;gap:4px;flex:1}.n{font-weight:600;font-size:12.5px}.c{color:var(--mut);font-size:11px}.note{font-size:11px;color:var(--mut)}
-.sz{display:flex;flex-wrap:wrap;gap:4px}.chip{font-size:11px;border:1px solid var(--line);border-radius:4px;padding:2px 6px;background:#fff}
-.chip.out{color:#bbb;text-decoration:line-through;cursor:default}.chip.sel{background:var(--fg);color:#fff;border-color:var(--fg)}
-.p{background:var(--acc);color:#fff;border:0;border-radius:6px;padding:8px 12px;cursor:pointer;font-weight:600;font-size:12px}.g{background:#fff;border:1px solid var(--line);border-radius:6px;padding:8px 12px;cursor:pointer;font-size:12px}
-input,select,textarea{font:inherit;border:1px solid var(--line);border-radius:6px;padding:7px;background:#fff}
+.sz{display:flex;flex-wrap:wrap;gap:4px}.chip{font-size:11px;border:1px solid var(--line);border-radius:4px;padding:2px 6px;background:var(--card);color:var(--fg)}
+.chip.out{color:var(--out);text-decoration:line-through;cursor:default}.chip.sel{background:var(--fg);color:#fff;border-color:var(--fg)}
+.p{background:var(--acc);color:var(--onacc);border:0;border-radius:6px;padding:8px 12px;cursor:pointer;font-weight:600;font-size:12px}.g{background:var(--card);color:var(--fg);border:1px solid var(--line);border-radius:6px;padding:8px 12px;cursor:pointer;font-size:12px}
+input,select,textarea{font:inherit;border:1px solid var(--line);border-radius:6px;padding:7px;background:var(--card);color:var(--fg)}
 .hide{display:none!important}#login{max-width:300px;margin:50px auto;text-align:center;display:flex;flex-direction:column;gap:8px}
 .abar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;padding:10px 14px}.adm input[type=number]{width:44px;padding:2px 4px;font-size:11px}.adm .chip{cursor:default}
 footer{color:var(--mut);text-align:center;padding:16px;font-size:11px}
 </style></head><body>
-<header><div class="top"><div class="logo"><b>PHX</b> SUPPLIES</div><input id="q" placeholder="Search…"><button class="ib" id="tAdmin">Admin</button></div>
+<header><div class="top"><div class="logo"><b>PHX</b> SUPPLIES</div><input id="q" placeholder="Search…"><div class="sw" id="sw"><button data-t="light" title="Light" style="background:#fff"></button><button data-t="black" title="Black" style="background:#111"></button><button data-t="purple" title="Purple" style="background:#6d3fd6"></button><button data-t="blue" title="Blue" style="background:#1f5fd1"></button><button data-t="red" title="Red" style="background:#c62828"></button><button data-t="green" title="Green" style="background:#1e7d3e"></button><button data-t="orange" title="Orange" style="background:#e8590c"></button></div><button class="ib" id="tAdmin">Admin</button></div>
 <div class="tabs" id="tabs"></div></header>
 <section id="shop"><div class="sub"><span id="count"></span><label style="margin-left:auto"><input type="checkbox" id="inOnly"> In stock only</label></div><div id="g" class="grid"></div></section>
 <section id="admin" class="hide"><div id="login"><b>Admin</b><input id="pw" type="password" placeholder="Password"><button class="p" id="go">Enter</button><span id="err" class="c"></span><button class="g" onclick="showShop()">Back to shop</button></div>
-<div id="panel" class="hide"><div class="abar"><button class="g" onclick="showShop()">← Shop</button><button class="p" id="pub">Publish to site</button><button class="g" id="dl">Download stock.json</button><input id="tok" type="password" placeholder="GitHub token (for Publish)" style="width:200px"><span class="c" id="msg"></span></div>
+<div id="panel" class="hide"><div class="abar"><button class="g" onclick="showShop()">← Shop</button><label class="c">Default theme <select id="defT"><option value="light">Light</option><option value="black">Black</option><option value="purple">Purple</option><option value="blue">Blue</option><option value="red">Red</option><option value="green">Green</option><option value="orange">Orange</option></select></label><button class="p" id="pub">Publish to site</button><button class="g" id="dl">Download stock.json</button><input id="tok" type="password" placeholder="GitHub token (for Publish)" style="width:200px"><span class="c" id="msg"></span></div>
 <p class="c" style="padding:0 14px">Edit qty per size (0 = sold out) or mark a whole item sold out. Changes stay local until Publish (live for everyone in ~1 min).</p><div id="ag" class="grid adm"></div></div></section>
 <footer>PHX Supplies · stock updated <span id="upd"></span></footer>
 <script>
@@ -37,7 +45,7 @@ let D,cat='';
 const $=s=>document.querySelector(s),esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const cleanNote=n=>String(n||'').split(' / ').filter(x=>!/^\s*(\d+|xl|s|m|l|[\s,])*\s*$/i.test(x)&&!/^\s*\d+\s*(bottles?|units?)\s*$/i.test(x)&&!/^\s*size\s+\w+\s*$/i.test(x)&&/[a-z0-9]/i.test(x)).join(' / ');
 const item=id=>D.items.find(i=>i.id==id),avail=i=>!i.soldOut&&(i.sizes.length==0||i.sizes.some(s=>s.qty>0));
-async function load(){D=await (await fetch('stock.json?t='+Date.now())).json();$('#upd').textContent=D.updated;
+async function load(){D=await (await fetch('stock.json?t='+Date.now())).json();$('#upd').textContent=D.updated;D.config=D.config||{};setTheme(localStorage.phxTheme||D.config.defaultTheme||'light');$('#defT').value=D.config.defaultTheme||'light';
 const cats=[...new Set(D.items.map(i=>i.category))];
 $('#tabs').innerHTML=['',...cats].map(c=>'<button data-c="'+esc(c)+'"'+(c==cat?' class="on"':'')+'>'+(c||'All')+'</button>').join('');render()}
 $('#tabs').onclick=e=>{if(e.target.dataset.c===undefined)return;cat=e.target.dataset.c;[...$('#tabs').children].forEach(b=>b.classList.toggle('on',b.dataset.c==cat));render()};
@@ -64,5 +72,8 @@ const h={Authorization:'Bearer '+t,Accept:'application/vnd.github+json'},u='http
 try{const cur=await (await fetch(u+'?ref=main',{headers:h})).json();const body=btoa(unescape(encodeURIComponent(JSON.stringify(D,null,1))));
 const r=await fetch(u,{method:'PUT',headers:h,body:JSON.stringify({message:'PHX stock update',content:body,sha:cur.sha,branch:'main'})});
 $('#msg').textContent=r.ok?'Published ✔ live in ~1 min':'Failed: '+r.status}catch(e){$('#msg').textContent='Failed: '+e}};
+function setTheme(t,save){document.documentElement.dataset.theme=t;[...$('#sw').children].forEach(b=>b.classList.toggle('on',b.dataset.t==t));if(save)localStorage.phxTheme=t}
+$('#sw').onclick=e=>{if(e.target.dataset.t)setTheme(e.target.dataset.t,1)};
+$('#defT').onchange=e=>{D.config=D.config||{};D.config.defaultTheme=e.target.value;setTheme(e.target.value)};
 load();
 </script></body></html>
