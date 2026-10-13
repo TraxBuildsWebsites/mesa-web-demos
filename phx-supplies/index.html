@@ -1,5 +1,5 @@
 <!doctype html><html lang="en"><head><script>document.documentElement.dataset.theme=localStorage.phxTheme||"light"</script><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>PHX Supplies</title><style>
+<title>PHX Supplies</title><link rel="icon" href="data:,"><style>
 :root,[data-theme="light"]{--bg:#fafafa;--card:#fff;--fg:#111;--mut:#6b6b6b;--line:#e6e6e6;--acc:#ff5a1f;--onacc:#fff;--hdr:rgba(255,255,255,.96);--in:#f1f1f1;--ph:#eee;--out:#bbb}
 [data-theme="black"]{--bg:#0b0b0b;--card:#161616;--fg:#f2f2f2;--mut:#a3a3a3;--line:#2a2a2a;--acc:#ff6a2b;--onacc:#111;--hdr:rgba(11,11,11,.95);--in:#1f1f1f;--ph:#222;--out:#555}
 [data-theme="purple"]{--bg:#f6f3fc;--card:#fff;--fg:#1d1530;--mut:#6c6280;--line:#e4dcf3;--acc:#6d3fd6;--onacc:#fff;--hdr:rgba(255,255,255,.95);--in:#efeaf8;--ph:#ece6f6;--out:#b9b0ca}
@@ -31,7 +31,12 @@ input,select,textarea{font:inherit;border:1px solid var(--line);border-radius:6p
 .hide{display:none!important}#login{max-width:300px;margin:50px auto;text-align:center;display:flex;flex-direction:column;gap:8px}
 .abar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;padding:10px 14px}.adm input[type=number]{width:44px;padding:2px 4px;font-size:11px}.adm .chip{cursor:default}
 footer{color:var(--mut);text-align:center;padding:16px;font-size:11px}
-</style></head><body>
+#splash{position:fixed;inset:0;z-index:100;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;transition:opacity .5s ease,visibility .5s}
+#splash.out{opacity:0;visibility:hidden}#splash .logo{margin:0;font-size:30px;letter-spacing:2px;animation:spIn .7s cubic-bezier(.2,.8,.2,1) both}
+#splash .ld{width:120px;height:3px;border-radius:3px;background:var(--line);overflow:hidden}#splash .ld i{display:block;height:100%;width:40%;background:var(--acc);border-radius:3px;animation:spBar 1s ease-in-out infinite}
+@keyframes spIn{from{opacity:0;transform:scale(.92)}to{opacity:1;transform:none}}@keyframes spBar{0%{transform:translateX(-100%)}100%{transform:translateX(250%)}}
+@media(prefers-reduced-motion:reduce){#splash .logo,#splash .ld i{animation:none}}
+</style></head><body><div id="splash" aria-hidden="true"><div class="logo"><b>PHX</b> SUPPLIES</div><div class="ld"><i></i></div></div>
 <header><div class="top"><div class="logo"><b>PHX</b> SUPPLIES</div><input id="q" placeholder="Search…"><div class="sw" id="sw"><button data-t="light" title="Light" style="background:#fff"></button><button data-t="black" title="Black" style="background:#111"></button><button data-t="purple" title="Purple" style="background:#6d3fd6"></button><button data-t="blue" title="Blue" style="background:#1f5fd1"></button><button data-t="red" title="Red" style="background:#c62828"></button><button data-t="green" title="Green" style="background:#1e7d3e"></button><button data-t="orange" title="Orange" style="background:#e8590c"></button></div><button class="ib" id="tAdmin">Admin</button></div>
 <div class="tabs" id="tabs"></div></header>
 <section id="shop"><div class="sub"><span id="count"></span><label style="margin-left:auto"><input type="checkbox" id="inOnly"> In stock only</label></div><div id="g" class="grid"></div></section>
@@ -49,7 +54,7 @@ async function load(){D=await (await fetch('stock.json?t='+Date.now())).json();$
 const cats=[...new Set(D.items.map(i=>i.category))];
 $('#tabs').innerHTML=['',...cats].map(c=>'<button data-c="'+esc(c)+'"'+(c==cat?' class="on"':'')+'>'+(c||'All')+'</button>').join('');render()}
 $('#tabs').onclick=e=>{if(e.target.dataset.c===undefined)return;cat=e.target.dataset.c;[...$('#tabs').children].forEach(b=>b.classList.toggle('on',b.dataset.c==cat));render()};
-function img(i){return i.images[0]?'<img loading="lazy" src="'+i.images[0]+'" alt="">':'<div class="ph">Photo coming soon</div>'}
+function img(i){return i.images[0]?'<img loading="lazy" decoding="async" src="'+i.images[0]+'" alt="">':'<div class="ph">Photo coming soon</div>'}
 function card(i){const sold=!avail(i);
 return '<div class="card'+(sold?' sold':'')+'">'+(sold?'<div class="so">SOLD OUT</div>':'')+img(i)+'<div class="b"><div class="n">'+esc(i.name)+(i.authentic?' ✓':'')+'</div><div class="c">'+esc(i.category)+'</div>'+
 (cleanNote(i.note)?'<div class="note">'+esc(cleanNote(i.note))+'</div>':'')+'<div class="sz">'+i.sizes.map((z,k)=>{const ok=z.qty>0&&!i.soldOut;return '<span class="chip'+(ok?'':' out')+'">'+esc(z.size)+'</span>'}).join('')+'</div>'+
@@ -75,5 +80,8 @@ $('#msg').textContent=r.ok?'Published ✔ live in ~1 min':'Failed: '+r.status}ca
 function setTheme(t,save){document.documentElement.dataset.theme=t;[...$('#sw').children].forEach(b=>b.classList.toggle('on',b.dataset.t==t));if(save)localStorage.phxTheme=t}
 $('#sw').onclick=e=>{if(e.target.dataset.t)setTheme(e.target.dataset.t,1)};
 $('#defT').onchange=e=>{D.config=D.config||{};D.config.defaultTheme=e.target.value;setTheme(e.target.value)};
-load();
+const T0=Date.now();let spDone=false;function hideSplash(){if(spDone)return;spDone=true;setTimeout(()=>{const s=$('#splash');s.classList.add('out');setTimeout(()=>s.remove(),600)},Math.max(0,800-(Date.now()-T0)))}
+setTimeout(hideSplash,2500);
+function waitImgs(){const im=[...document.querySelectorAll('#g img')].slice(0,8);Promise.all(im.map(i=>i.complete?1:new Promise(r=>{i.onload=i.onerror=r}))).then(hideSplash)}
+load().then(waitImgs,hideSplash);
 </script></body></html>
