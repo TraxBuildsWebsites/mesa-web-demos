@@ -1,0 +1,59 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PHX Supplies</title><style>
+:root{--bg:#0d0d0d;--card:#181818;--fg:#f4f4f4;--mut:#9a9a9a;--acc:#ff5a1f;--acc2:#ffb020}
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,Segoe UI,Arial;background:var(--bg);color:var(--fg)}
+header{position:sticky;top:0;z-index:5;background:#000;border-bottom:2px solid var(--acc);display:flex;align-items:center;gap:16px;padding:12px 18px;flex-wrap:wrap}
+.logo{font-weight:900;font-size:26px;letter-spacing:1px}.logo b{background:linear-gradient(90deg,var(--acc),var(--acc2));-webkit-background-clip:text;color:transparent}
+nav button{background:none;border:1px solid #333;color:var(--fg);padding:7px 14px;border-radius:20px;cursor:pointer}nav button.on{background:var(--acc);border-color:var(--acc)}
+.bar{display:flex;gap:10px;flex-wrap:wrap;padding:14px 18px}input,select{background:#111;color:var(--fg);border:1px solid #333;border-radius:8px;padding:9px}
+#q{flex:1;min-width:200px}.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px;padding:0 18px 40px}
+.card{background:var(--card);border-radius:12px;overflow:hidden;position:relative}.card img{width:100%;aspect-ratio:1;object-fit:cover;background:#222;display:block}
+.ph{aspect-ratio:1;display:flex;align-items:center;justify-content:center;color:var(--mut);background:#222}
+.b{padding:10px 12px}.n{font-weight:700}.c{color:var(--mut);font-size:13px}.note{font-size:12px;color:var(--mut);margin-top:4px}
+.sz{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px}.sz span{font-size:12px;padding:3px 8px;border-radius:6px;border:1px solid #444}.sz .out{opacity:.4;text-decoration:line-through}
+.so{position:absolute;top:10px;left:10px;background:#c00;color:#fff;font-weight:800;padding:4px 10px;border-radius:6px}.card.sold img{filter:grayscale(1) brightness(.6)}
+.adm .sz span{cursor:pointer}.adm input[type=number]{width:52px;padding:3px}.row{display:flex;align-items:center;gap:4px}
+button.p{background:var(--acc);color:#fff;border:0;border-radius:8px;padding:9px 14px;cursor:pointer;font-weight:700}.hide{display:none}
+#login{max-width:340px;margin:60px auto;text-align:center}footer{color:var(--mut);text-align:center;padding:20px;font-size:12px}
+</style></head><body>
+<header><div class="logo">🔥 <b>PHX</b> SUPPLIES</div><nav><button id="tShop" class="on">Shop</button> <button id="tAdmin">Admin</button></nav></header>
+<section id="shop"><div class="bar"><input id="q" placeholder="Search items, notes, sizes…"><select id="cat"><option value="">All categories</option></select>
+<select id="size"><option value="">Any size</option></select><select id="stk"><option value="">All</option><option value="in">In stock</option><option value="out">Sold out</option></select></div><div id="g" class="grid"></div></section>
+<section id="admin" class="hide"><div id="login"><h2>Admin</h2><input id="pw" type="password" placeholder="Password"> <button class="p" id="go">Enter</button><p id="err" class="c"></p></div>
+<div id="panel" class="hide"><div class="bar"><button class="p" id="pub">Publish to site</button><button class="p" id="dl">Download stock.json</button>
+<input id="tok" type="password" placeholder="GitHub token (for Publish)" style="min-width:260px"><span class="c" id="msg"></span></div>
+<p class="c" style="padding:0 18px">Edit quantities (0 = sold out for that size) or toggle a whole item sold out. Changes are local until you press Publish (live for everyone in ~1 min).</p><div id="ag" class="grid adm"></div></div></section>
+<footer>PHX Supplies · stock updated <span id="upd"></span></footer>
+<script>
+const H="5e6388f5d85d95039f7218d4d705bc01dcf4dcb6d6e81049cc2b4462e5080f1c",REPO="TraxBuildsWebsites/mesa-web-demos",PATH="phx-supplies/stock.json";let D,sha;
+const $=s=>document.querySelector(s);
+const avail=i=>!i.soldOut&&(i.sizes.length==0||i.sizes.some(s=>s.qty>0));
+async function load(){D=await (await fetch('stock.json?t='+Date.now())).json();$('#upd').textContent=D.updated;
+const cats=[...new Set(D.items.map(i=>i.category))],sz=[...new Set(D.items.flatMap(i=>i.sizes.map(s=>s.size)))];
+$('#cat').innerHTML='<option value="">All categories</option>'+cats.map(c=>'<option>'+c+'</option>').join('');
+$('#size').innerHTML='<option value="">Any size</option>'+sz.map(c=>'<option>'+c+'</option>').join('');render()}
+function card(i,adm){const sold=!avail(i);return '<div class="card'+(sold?' sold':'')+'">'+(sold?'<div class="so">SOLD OUT</div>':'')+
+(i.images[0]?'<img loading="lazy" src="'+i.images[0]+'" alt="'+i.name+'">':'<div class="ph">Photo coming soon</div>')+
+'<div class="b"><div class="n">'+i.name+(i.authentic?' ✅':'')+'</div><div class="c">'+i.category+'</div>'+(i.note?'<div class="note">'+i.note.replace(/</g,'&lt;')+'</div>':'')+
+'<div class="sz">'+(adm?i.sizes.map((s,k)=>'<span class="row">'+s.size+' <input type="number" min="0" value="'+s.qty+'" data-i="'+i.id+'" data-k="'+k+'"></span>').join('')+
+'<label class="row"><input type="checkbox" data-so="'+i.id+'" '+(i.soldOut?'checked':'')+'> item sold out</label>'
+:i.sizes.map(s=>'<span class="'+(s.qty>0&&!i.soldOut?'':'out')+'">'+s.size+(s.qty>0?' ·'+s.qty:'')+'</span>').join(''))+'</div></div></div>'}
+function render(){const q=$('#q').value.toLowerCase(),c=$('#cat').value,z=$('#size').value,k=$('#stk').value;
+$('#g').innerHTML=D.items.filter(i=>(!c||i.category==c)&&(!z||i.sizes.some(s=>s.size==z&&s.qty>0&&!i.soldOut))&&(!k||(k=='in')==avail(i))&&
+(!q||(i.name+' '+i.category+' '+i.note+' '+i.sizes.map(s=>s.size).join(' ')).toLowerCase().includes(q))).map(i=>card(i)).join('')||'<p class="c">No matches.</p>'}
+['#q','#cat','#size','#stk'].forEach(s=>$(s).addEventListener('input',render));
+$('#tShop').onclick=()=>{$('#shop').classList.remove('hide');$('#admin').classList.add('hide');$('#tShop').className='on';$('#tAdmin').className='';render()};
+$('#tAdmin').onclick=()=>{$('#admin').classList.remove('hide');$('#shop').classList.add('hide');$('#tAdmin').className='on';$('#tShop').className=''};
+async function hash(s){return [...new Uint8Array(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(s)))].map(b=>b.toString(16).padStart(2,'0')).join('')}
+$('#go').onclick=async()=>{if(await hash($('#pw').value)==H){$('#login').classList.add('hide');$('#panel').classList.remove('hide');$('#tok').value=localStorage.phxTok||'';arender()}else $('#err').textContent='Wrong password'};
+function arender(){$('#ag').innerHTML=D.items.map(i=>card(i,1)).join('')}
+$('#ag').addEventListener('change',e=>{const t=e.target,f=id=>D.items.find(i=>i.id==id);if(t.dataset.so)f(t.dataset.so).soldOut=t.checked;else if(t.dataset.i)f(t.dataset.i).sizes[t.dataset.k].qty=Math.max(0,+t.value||0);
+D.updated=new Date().toISOString().slice(0,10);arender()});
+$('#dl').onclick=()=>{const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(D,null,1)],{type:'application/json'}));a.download='stock.json';a.click()};
+$('#pub').onclick=async()=>{const t=$('#tok').value.trim();if(!t){$('#msg').textContent='Enter a GitHub token, or use Download.';return}localStorage.phxTok=t;$('#msg').textContent='Publishing…';
+const h={Authorization:'Bearer '+t,Accept:'application/vnd.github+json'},u='https://api.github.com/repos/'+REPO+'/contents/'+PATH;
+try{const cur=await (await fetch(u+'?ref=main',{headers:h})).json();const body=btoa(unescape(encodeURIComponent(JSON.stringify(D,null,1))));
+const r=await fetch(u,{method:'PUT',headers:h,body:JSON.stringify({message:'PHX stock update',content:body,sha:cur.sha,branch:'main'})});
+$('#msg').textContent=r.ok?'Published ✔ live in ~1 min':'Failed: '+r.status}catch(e){$('#msg').textContent='Failed: '+e}};
+load();
+</script></body></html>
