@@ -35,6 +35,7 @@ footer{color:var(--mut);text-align:center;padding:16px;font-size:11px}
 const H="5e6388f5d85d95039f7218d4d705bc01dcf4dcb6d6e81049cc2b4462e5080f1c",REPO="TraxBuildsWebsites/mesa-web-demos",PATH="phx-supplies/stock.json";
 let D,cat='';
 const $=s=>document.querySelector(s),esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const cleanNote=n=>String(n||'').split(' / ').filter(x=>!/^\s*(\d+|xl|s|m|l|[\s,])*\s*$/i.test(x)&&!/^\s*\d+\s*(bottles?|units?)\s*$/i.test(x)&&!/^\s*size\s+\w+\s*$/i.test(x)&&/[a-z0-9]/i.test(x)).join(' / ');
 const item=id=>D.items.find(i=>i.id==id),avail=i=>!i.soldOut&&(i.sizes.length==0||i.sizes.some(s=>s.qty>0));
 async function load(){D=await (await fetch('stock.json?t='+Date.now())).json();$('#upd').textContent=D.updated;
 const cats=[...new Set(D.items.map(i=>i.category))];
@@ -43,7 +44,7 @@ $('#tabs').onclick=e=>{if(e.target.dataset.c===undefined)return;cat=e.target.dat
 function img(i){return i.images[0]?'<img loading="lazy" src="'+i.images[0]+'" alt="">':'<div class="ph">Photo coming soon</div>'}
 function card(i){const sold=!avail(i);
 return '<div class="card'+(sold?' sold':'')+'">'+(sold?'<div class="so">SOLD OUT</div>':'')+img(i)+'<div class="b"><div class="n">'+esc(i.name)+(i.authentic?' ✓':'')+'</div><div class="c">'+esc(i.category)+'</div>'+
-(i.note?'<div class="note">'+esc(i.note)+'</div>':'')+'<div class="sz">'+i.sizes.map((z,k)=>{const ok=z.qty>0&&!i.soldOut;return '<span class="chip'+(ok?'':' out')+'">'+esc(z.size)+'</span>'}).join('')+'</div>'+
+(cleanNote(i.note)?'<div class="note">'+esc(cleanNote(i.note))+'</div>':'')+'<div class="sz">'+i.sizes.map((z,k)=>{const ok=z.qty>0&&!i.soldOut;return '<span class="chip'+(ok?'':' out')+'">'+esc(z.size)+'</span>'}).join('')+'</div>'+
 '</div></div>'}
 function render(){const q=$('#q').value.toLowerCase(),io=$('#inOnly').checked;
 const L=D.items.filter(i=>(!cat||i.category==cat)&&(!io||avail(i))&&(!q||(i.name+' '+i.category+' '+i.note+' '+i.sizes.map(s=>s.size).join(' ')).toLowerCase().includes(q)));
