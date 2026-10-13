@@ -1,54 +1,99 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>PHX Supplies</title><style>
-:root{--bg:#0d0d0d;--card:#181818;--fg:#f4f4f4;--mut:#9a9a9a;--acc:#ff5a1f;--acc2:#ffb020}
-*{box-sizing:border-box}body{margin:0;font-family:system-ui,Segoe UI,Arial;background:var(--bg);color:var(--fg)}
-header{position:sticky;top:0;z-index:5;background:#000;border-bottom:2px solid var(--acc);display:flex;align-items:center;gap:16px;padding:12px 18px;flex-wrap:wrap}
-.logo{font-weight:900;font-size:26px;letter-spacing:1px}.logo b{background:linear-gradient(90deg,var(--acc),var(--acc2));-webkit-background-clip:text;color:transparent}
-nav button{background:none;border:1px solid #333;color:var(--fg);padding:7px 14px;border-radius:20px;cursor:pointer}nav button.on{background:var(--acc);border-color:var(--acc)}
-.bar{display:flex;gap:10px;flex-wrap:wrap;padding:14px 18px}input,select{background:#111;color:var(--fg);border:1px solid #333;border-radius:8px;padding:9px}
-#q{flex:1;min-width:200px}.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px;padding:0 18px 40px}
-.card{background:var(--card);border-radius:12px;overflow:hidden;position:relative}.card img{width:100%;aspect-ratio:1;object-fit:cover;background:#222;display:block}
-.ph{aspect-ratio:1;display:flex;align-items:center;justify-content:center;color:var(--mut);background:#222}
-.b{padding:10px 12px}.n{font-weight:700}.c{color:var(--mut);font-size:13px}.note{font-size:12px;color:var(--mut);margin-top:4px}
-.sz{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px}.sz span{font-size:12px;padding:3px 8px;border-radius:6px;border:1px solid #444}.sz .out{opacity:.4;text-decoration:line-through}
-.so{position:absolute;top:10px;left:10px;background:#c00;color:#fff;font-weight:800;padding:4px 10px;border-radius:6px}.card.sold img{filter:grayscale(1) brightness(.6)}
-.adm .sz span{cursor:pointer}.adm input[type=number]{width:52px;padding:3px}.row{display:flex;align-items:center;gap:4px}
-button.p{background:var(--acc);color:#fff;border:0;border-radius:8px;padding:9px 14px;cursor:pointer;font-weight:700}.hide{display:none}
-#login{max-width:340px;margin:60px auto;text-align:center}footer{color:var(--mut);text-align:center;padding:20px;font-size:12px}
+:root{--bg:#fafafa;--card:#fff;--fg:#111;--mut:#777;--line:#e6e6e6;--acc:#ff5a1f}
+*{box-sizing:border-box}body{margin:0;font:13px/1.4 -apple-system,system-ui,Segoe UI,Inter,Arial;background:var(--bg);color:var(--fg)}
+header{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.96);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.top{display:flex;align-items:center;gap:10px;padding:10px 14px}.logo{font-weight:900;font-size:17px;letter-spacing:.5px;white-space:nowrap}.logo b{color:var(--acc)}
+#q{flex:1;min-width:0;border:1px solid var(--line);background:#f3f3f3;border-radius:20px;padding:7px 12px;font-size:13px}
+.ib{border:0;background:none;font-size:13px;cursor:pointer;padding:6px 8px;border-radius:8px;white-space:nowrap}.ib:hover{background:#f0f0f0}
+#cc{background:var(--fg);color:#fff;border-radius:10px;padding:0 6px;font-size:11px;margin-left:3px}
+.tabs{display:flex;gap:6px;overflow-x:auto;padding:0 14px 9px;scrollbar-width:none}.tabs::-webkit-scrollbar{display:none}
+.tabs button{flex:none;border:1px solid var(--line);background:#fff;border-radius:16px;padding:4px 11px;font-size:12px;cursor:pointer}.tabs button.on{background:var(--fg);color:#fff;border-color:var(--fg)}
+.sub{display:flex;gap:8px;align-items:center;padding:10px 14px;color:var(--mut);font-size:12px}.sub label{display:flex;gap:4px;align-items:center}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;padding:0 10px 60px}
+@media(min-width:640px){.grid{grid-template-columns:repeat(3,1fr)}}@media(min-width:1000px){.grid{grid-template-columns:repeat(4,1fr)}}@media(min-width:1300px){.grid{grid-template-columns:repeat(5,1fr)}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:8px;overflow:hidden;position:relative;display:flex;flex-direction:column}
+.card img,.ph{width:100%;aspect-ratio:1;object-fit:cover;background:#eee;display:block}.ph{display:flex;align-items:center;justify-content:center;color:var(--mut);font-size:11px}
+.card.sold img{opacity:.45}.so{position:absolute;top:6px;left:6px;background:#111;color:#fff;font-size:10px;font-weight:700;padding:2px 6px;border-radius:4px;letter-spacing:.5px}
+.b{padding:7px 8px 8px;display:flex;flex-direction:column;gap:4px;flex:1}.n{font-weight:600;font-size:12.5px}.c{color:var(--mut);font-size:11px}.note{font-size:11px;color:var(--mut)}
+.sz{display:flex;flex-wrap:wrap;gap:4px}.chip{font-size:11px;border:1px solid var(--line);border-radius:4px;padding:2px 6px;background:#fff;cursor:pointer}
+.chip.out{color:#bbb;text-decoration:line-through;cursor:default}.chip.sel{background:var(--fg);color:#fff;border-color:var(--fg)}
+.add{margin-top:auto;border:0;background:var(--fg);color:#fff;border-radius:6px;padding:6px;font-size:12px;cursor:pointer}.add:disabled{background:#ccc;cursor:default}
+.p{background:var(--acc);color:#fff;border:0;border-radius:6px;padding:8px 12px;cursor:pointer;font-weight:600;font-size:12px}.g{background:#fff;border:1px solid var(--line);border-radius:6px;padding:8px 12px;cursor:pointer;font-size:12px}
+input,select,textarea{font:inherit;border:1px solid var(--line);border-radius:6px;padding:7px;background:#fff}
+.hide{display:none!important}#login{max-width:300px;margin:50px auto;text-align:center;display:flex;flex-direction:column;gap:8px}
+.abar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;padding:10px 14px}.adm input[type=number]{width:44px;padding:2px 4px;font-size:11px}.adm .chip{cursor:default}
+#ov{position:fixed;inset:0;background:rgba(0,0,0,.35);z-index:30}#drawer{position:fixed;top:0;right:0;height:100%;width:min(380px,100%);background:#fff;z-index:31;display:flex;flex-direction:column;box-shadow:-4px 0 20px rgba(0,0,0,.1)}
+.dh{display:flex;justify-content:space-between;align-items:center;padding:12px 14px;border-bottom:1px solid var(--line);font-weight:700}.db{flex:1;overflow:auto;padding:12px 14px;display:flex;flex-direction:column;gap:10px}
+.li{display:flex;gap:8px;align-items:center}.li img{width:46px;height:46px;object-fit:cover;border-radius:4px;background:#eee}.li .x{margin-left:auto}.qty{display:flex;gap:4px;align-items:center}
+.qty button{width:22px;height:22px;border:1px solid var(--line);background:#fff;border-radius:4px;cursor:pointer}
+.df{border-top:1px solid var(--line);padding:12px 14px;display:flex;flex-direction:column;gap:8px}.msg{background:#fff6e0;border:1px solid #f3d27a;border-radius:6px;padding:8px;font-size:12px}
+pre{white-space:pre-wrap;background:#f5f5f5;border-radius:6px;padding:8px;font-size:11px;margin:0}footer{color:var(--mut);text-align:center;padding:16px;font-size:11px}
 </style></head><body>
-<header><div class="logo">🔥 <b>PHX</b> SUPPLIES</div><nav><button id="tShop" class="on">Shop</button> <button id="tAdmin">Admin</button></nav></header>
-<section id="shop"><div class="bar"><input id="q" placeholder="Search items, notes, sizes…"><select id="cat"><option value="">All categories</option></select>
-<select id="size"><option value="">Any size</option></select><select id="stk"><option value="">All</option><option value="in">In stock</option><option value="out">Sold out</option></select></div><div id="g" class="grid"></div></section>
-<section id="admin" class="hide"><div id="login"><h2>Admin</h2><input id="pw" type="password" placeholder="Password"> <button class="p" id="go">Enter</button><p id="err" class="c"></p></div>
-<div id="panel" class="hide"><div class="bar"><button class="p" id="pub">Publish to site</button><button class="p" id="dl">Download stock.json</button>
-<input id="tok" type="password" placeholder="GitHub token (for Publish)" style="min-width:260px"><span class="c" id="msg"></span></div>
-<p class="c" style="padding:0 18px">Edit quantities (0 = sold out for that size) or toggle a whole item sold out. Changes are local until you press Publish (live for everyone in ~1 min).</p><div id="ag" class="grid adm"></div></div></section>
+<header><div class="top"><div class="logo"><b>PHX</b> SUPPLIES</div><input id="q" placeholder="Search…"><button class="ib" id="tAdmin">Admin</button><button class="ib" id="openCart">Cart<span id="cc">0</span></button></div>
+<div class="tabs" id="tabs"></div></header>
+<section id="shop"><div class="sub"><span id="count"></span><label style="margin-left:auto"><input type="checkbox" id="inOnly"> In stock only</label></div><div id="g" class="grid"></div></section>
+<section id="admin" class="hide"><div id="login"><b>Admin</b><input id="pw" type="password" placeholder="Password"><button class="p" id="go">Enter</button><span id="err" class="c"></span><button class="g" onclick="showShop()">Back to shop</button></div>
+<div id="panel" class="hide"><div class="abar"><button class="g" onclick="showShop()">← Shop</button><label class="c">Seller phone (for SMS orders) <input id="phone" placeholder="e.g. 6025551234" style="width:140px"></label>
+<button class="p" id="pub">Publish to site</button><button class="g" id="dl">Download stock.json</button><input id="tok" type="password" placeholder="GitHub token (for Publish)" style="width:200px"><span class="c" id="msg"></span></div>
+<p class="c" style="padding:0 14px">Edit qty per size (0 = sold out) or mark a whole item sold out. Changes stay local until Publish (live for everyone in ~1 min).</p><div id="ag" class="grid adm"></div></div></section>
+<div id="ov" class="hide"></div>
+<aside id="drawer" class="hide"><div class="dh"><span id="dt">Your cart</span><button class="ib" id="closeCart">✕</button></div><div class="db" id="db"></div><div class="df" id="df"></div></aside>
 <footer>PHX Supplies · stock updated <span id="upd"></span></footer>
 <script>
-const H="5e6388f5d85d95039f7218d4d705bc01dcf4dcb6d6e81049cc2b4462e5080f1c",REPO="TraxBuildsWebsites/mesa-web-demos",PATH="phx-supplies/stock.json";let D,sha;
-const $=s=>document.querySelector(s);
-const avail=i=>!i.soldOut&&(i.sizes.length==0||i.sizes.some(s=>s.qty>0));
-async function load(){D=await (await fetch('stock.json?t='+Date.now())).json();$('#upd').textContent=D.updated;
-const cats=[...new Set(D.items.map(i=>i.category))],sz=[...new Set(D.items.flatMap(i=>i.sizes.map(s=>s.size)))];
-$('#cat').innerHTML='<option value="">All categories</option>'+cats.map(c=>'<option>'+c+'</option>').join('');
-$('#size').innerHTML='<option value="">Any size</option>'+sz.map(c=>'<option>'+c+'</option>').join('');render()}
-function card(i,adm){const sold=!avail(i);return '<div class="card'+(sold?' sold':'')+'">'+(sold?'<div class="so">SOLD OUT</div>':'')+
-(i.images[0]?'<img loading="lazy" src="'+i.images[0]+'" alt="'+i.name+'">':'<div class="ph">Photo coming soon</div>')+
-'<div class="b"><div class="n">'+i.name+(i.authentic?' ✅':'')+'</div><div class="c">'+i.category+'</div>'+(i.note?'<div class="note">'+i.note.replace(/</g,'&lt;')+'</div>':'')+
-'<div class="sz">'+(adm?i.sizes.map((s,k)=>'<span class="row">'+s.size+' <input type="number" min="0" value="'+s.qty+'" data-i="'+i.id+'" data-k="'+k+'"></span>').join('')+
-'<label class="row"><input type="checkbox" data-so="'+i.id+'" '+(i.soldOut?'checked':'')+'> item sold out</label>'
-:i.sizes.map(s=>'<span class="'+(s.qty>0&&!i.soldOut?'':'out')+'">'+s.size+(s.qty>0?' ·'+s.qty:'')+'</span>').join(''))+'</div></div></div>'}
-function render(){const q=$('#q').value.toLowerCase(),c=$('#cat').value,z=$('#size').value,k=$('#stk').value;
-$('#g').innerHTML=D.items.filter(i=>(!c||i.category==c)&&(!z||i.sizes.some(s=>s.size==z&&s.qty>0&&!i.soldOut))&&(!k||(k=='in')==avail(i))&&
-(!q||(i.name+' '+i.category+' '+i.note+' '+i.sizes.map(s=>s.size).join(' ')).toLowerCase().includes(q))).map(i=>card(i)).join('')||'<p class="c">No matches.</p>'}
-['#q','#cat','#size','#stk'].forEach(s=>$(s).addEventListener('input',render));
-$('#tShop').onclick=()=>{$('#shop').classList.remove('hide');$('#admin').classList.add('hide');$('#tShop').className='on';$('#tAdmin').className='';render()};
-$('#tAdmin').onclick=()=>{$('#admin').classList.remove('hide');$('#shop').classList.add('hide');$('#tAdmin').className='on';$('#tShop').className=''};
+const H="5e6388f5d85d95039f7218d4d705bc01dcf4dcb6d6e81049cc2b4462e5080f1c",REPO="TraxBuildsWebsites/mesa-web-demos",PATH="phx-supplies/stock.json";
+let D,cat='',sel={},cart=JSON.parse(localStorage.phxCart||'[]'),step='cart';
+const $=s=>document.querySelector(s),esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const item=id=>D.items.find(i=>i.id==id),avail=i=>!i.soldOut&&(i.sizes.length==0||i.sizes.some(s=>s.qty>0));
+const phone=()=>((D.config||{}).sellerPhone||'').replace(/[^\d+]/g,'');
+async function load(){D=await (await fetch('stock.json?t='+Date.now())).json();D.config=D.config||{sellerPhone:''};$('#upd').textContent=D.updated;
+cart=cart.filter(c=>item(c.id));const cats=[...new Set(D.items.map(i=>i.category))];
+$('#tabs').innerHTML=['',...cats].map(c=>'<button data-c="'+esc(c)+'"'+(c==cat?' class="on"':'')+'>'+(c||'All')+'</button>').join('');render();upCart()}
+$('#tabs').onclick=e=>{if(e.target.dataset.c===undefined)return;cat=e.target.dataset.c;[...$('#tabs').children].forEach(b=>b.classList.toggle('on',b.dataset.c==cat));render()};
+function img(i){return i.images[0]?'<img loading="lazy" src="'+i.images[0]+'" alt="">':'<div class="ph">Photo coming soon</div>'}
+function card(i){const sold=!avail(i),s=sel[i.id],one=i.sizes.length==0;
+return '<div class="card'+(sold?' sold':'')+'">'+(sold?'<div class="so">SOLD OUT</div>':'')+img(i)+'<div class="b"><div class="n">'+esc(i.name)+(i.authentic?' ✓':'')+'</div><div class="c">'+esc(i.category)+'</div>'+
+(i.note?'<div class="note">'+esc(i.note)+'</div>':'')+'<div class="sz">'+i.sizes.map((z,k)=>{const ok=z.qty>0&&!i.soldOut;return '<span class="chip'+(ok?'':' out')+(s===k?' sel':'')+'" '+(ok?'data-pick="'+i.id+'" data-k="'+k+'"':'')+'>'+esc(z.size)+'</span>'}).join('')+'</div>'+
+'<button class="add" data-add="'+i.id+'" '+(sold||(!one&&s===undefined)?'disabled':'')+'>'+(sold?'Sold out':(!one&&s===undefined?'Pick a size':'Add to cart'))+'</button></div></div>'}
+function render(){const q=$('#q').value.toLowerCase(),io=$('#inOnly').checked;
+const L=D.items.filter(i=>(!cat||i.category==cat)&&(!io||avail(i))&&(!q||(i.name+' '+i.category+' '+i.note+' '+i.sizes.map(s=>s.size).join(' ')).toLowerCase().includes(q)));
+$('#count').textContent=L.length+' items';$('#g').innerHTML=L.map(card).join('')||'<p class="c">No matches.</p>'}
+$('#q').oninput=()=>{showShop();render()};$('#inOnly').onchange=render;
+$('#g').onclick=e=>{const t=e.target;if(t.dataset.pick){sel[t.dataset.pick]=+t.dataset.k;render()}
+else if(t.dataset.add){const i=item(t.dataset.add),k=sel[i.id],size=i.sizes.length?i.sizes[k].size:'One size',max=i.sizes.length?i.sizes[k].qty:99;
+const ex=cart.find(c=>c.id==i.id&&c.size==size);if(ex)ex.qty=Math.min(max,ex.qty+1);else cart.push({id:i.id,size,qty:1});save();t.textContent='Added ✓';setTimeout(render,700)}};
+function save(){localStorage.phxCart=JSON.stringify(cart);upCart()}
+function upCart(){$('#cc').textContent=cart.reduce((a,c)=>a+c.qty,0);if(!$('#drawer').classList.contains('hide'))drawCart()}
+function openCart(){step='cart';$('#ov').classList.remove('hide');$('#drawer').classList.remove('hide');drawCart()}
+function closeCart(){$('#ov').classList.add('hide');$('#drawer').classList.add('hide')}
+$('#openCart').onclick=openCart;$('#closeCart').onclick=closeCart;$('#ov').onclick=closeCart;
+function orderText(){const n=$('#bn')?$('#bn').value.trim():'',m=$('#bm')?$('#bm').value:'pickup',no=$('#bno')?$('#bno').value.trim():'';
+return 'PHX Supplies order\n'+cart.map(c=>{const i=item(c.id);return '- '+c.qty+' x '+i.name+' ('+i.category+') size '+c.size}).join('\n')+
+'\nName: '+n+'\nPickup/Delivery: '+m+(no?'\nNote: '+no:'')}
+function drawCart(){if(!cart.length){$('#dt').textContent='Your cart';$('#db').innerHTML='<p class="c">Your cart is empty.</p>';$('#df').innerHTML='';return}
+if(step=='cart'){$('#dt').textContent='Your cart';
+$('#db').innerHTML=cart.map((c,x)=>{const i=item(c.id);return '<div class="li">'+(i.images[0]?'<img src="'+i.images[0]+'">':'<img>')+'<div><div class="n">'+esc(i.name)+'</div><div class="c">Size '+esc(c.size)+'</div></div><div class="qty x"><button data-d="'+x+'">−</button>'+c.qty+'<button data-u="'+x+'">+</button></div></div>'}).join('');
+$('#df').innerHTML='<button class="p" id="toCo">Checkout</button>';$('#toCo').onclick=()=>{step='co';drawCart()}}
+else{$('#dt').textContent='Checkout';$('#db').innerHTML='<label class="c">Your name *</label><input id="bn" value="'+esc(localStorage.phxName||'')+'"><label class="c">Pickup or delivery</label><select id="bm"><option>Pickup</option><option>Delivery</option></select>'+
+'<label class="c">Note (optional)</label><textarea id="bno" rows="3" placeholder="Address for delivery, timing, etc."></textarea><label class="c">Order summary</label><pre id="pv"></pre>';
+const pv=()=>$('#pv').textContent=orderText();['#bn','#bm','#bno'].forEach(s=>$(s).oninput=pv);pv();const ph=phone();
+$('#df').innerHTML=(ph?'<button class="p" id="sms">Text order to seller</button>':'<div class="msg"><b>Text order:</b> online texting isn\'t set up yet. Tap “Copy order text”, then paste it in a text or DM to PHX Supplies.</div>')+
+'<button class="g" id="cp">Copy order text</button><button class="g" id="back">← Back to cart</button><span class="c" id="cm"></span>';
+$('#back').onclick=()=>{step='cart';drawCart()};
+$('#cp').onclick=async()=>{const t=orderText();try{await navigator.clipboard.writeText(t)}catch(e){const a=document.createElement('textarea');a.value=t;document.body.appendChild(a);a.select();document.execCommand('copy');a.remove()}$('#cm').textContent='Copied ✓'};
+if(ph)$('#sms').onclick=()=>{if(!$('#bn').value.trim()){$('#cm').textContent='Please enter your name.';return}localStorage.phxName=$('#bn').value.trim();
+const sep=/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)?'&':'?';location.href='sms:'+ph+sep+'body='+encodeURIComponent(orderText())}}}
+$('#db').onclick=e=>{const t=e.target;if(t.dataset.u!==undefined){const c=cart[t.dataset.u],i=item(c.id),z=i.sizes.find(s=>s.size==c.size);c.qty=Math.min(z?z.qty:99,c.qty+1);save()}
+if(t.dataset.d!==undefined){const c=cart[t.dataset.d];c.qty--;if(c.qty<1)cart.splice(t.dataset.d,1);save()}};
+function showShop(){$('#shop').classList.remove('hide');$('#admin').classList.add('hide')}
+$('#tAdmin').onclick=()=>{$('#admin').classList.remove('hide');$('#shop').classList.add('hide')};
 async function hash(s){return [...new Uint8Array(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(s)))].map(b=>b.toString(16).padStart(2,'0')).join('')}
-$('#go').onclick=async()=>{if(await hash($('#pw').value)==H){$('#login').classList.add('hide');$('#panel').classList.remove('hide');$('#tok').value=localStorage.phxTok||'';arender()}else $('#err').textContent='Wrong password'};
-function arender(){$('#ag').innerHTML=D.items.map(i=>card(i,1)).join('')}
-$('#ag').addEventListener('change',e=>{const t=e.target,f=id=>D.items.find(i=>i.id==id);if(t.dataset.so)f(t.dataset.so).soldOut=t.checked;else if(t.dataset.i)f(t.dataset.i).sizes[t.dataset.k].qty=Math.max(0,+t.value||0);
-D.updated=new Date().toISOString().slice(0,10);arender()});
+$('#go').onclick=async()=>{if(await hash($('#pw').value)==H){$('#login').classList.add('hide');$('#panel').classList.remove('hide');$('#tok').value=localStorage.phxTok||'';$('#phone').value=D.config.sellerPhone||'';arender()}else $('#err').textContent='Wrong password'};
+$('#pw').onkeydown=e=>{if(e.key=='Enter')$('#go').click()};
+$('#phone').oninput=e=>{D.config.sellerPhone=e.target.value.trim()};
+function arender(){$('#ag').innerHTML=D.items.map(i=>{const sold=!avail(i);return '<div class="card'+(sold?' sold':'')+'">'+(sold?'<div class="so">SOLD OUT</div>':'')+img(i)+'<div class="b"><div class="n">'+esc(i.name)+'</div><div class="note">'+esc(i.note)+'</div><div class="sz">'+
+i.sizes.map((s,k)=>'<span class="chip">'+esc(s.size)+' <input type="number" min="0" value="'+s.qty+'" data-i="'+i.id+'" data-k="'+k+'"></span>').join('')+'</div><label class="c"><input type="checkbox" data-so="'+i.id+'" '+(i.soldOut?'checked':'')+'> item sold out</label></div></div>'}).join('')}
+$('#ag').addEventListener('change',e=>{const t=e.target;if(t.dataset.so)item(t.dataset.so).soldOut=t.checked;else if(t.dataset.i)item(t.dataset.i).sizes[t.dataset.k].qty=Math.max(0,+t.value||0);D.updated=new Date().toISOString().slice(0,10);arender()});
 $('#dl').onclick=()=>{const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(D,null,1)],{type:'application/json'}));a.download='stock.json';a.click()};
 $('#pub').onclick=async()=>{const t=$('#tok').value.trim();if(!t){$('#msg').textContent='Enter a GitHub token, or use Download.';return}localStorage.phxTok=t;$('#msg').textContent='Publishing…';
 const h={Authorization:'Bearer '+t,Accept:'application/vnd.github+json'},u='https://api.github.com/repos/'+REPO+'/contents/'+PATH;
